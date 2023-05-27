@@ -1,0 +1,43 @@
+// Container & Breakpoints
+@use 'sass:math';
+$containerWidth: 1345;
+$containerPadding: 20;
+$containerSidePadding: math.div($containerPadding, 2);
+$breakpoint1450: 1449.98 + px;
+$breakpoint992: 991.98 + px;
+$breakpoint768: 767.98 + px;
+$breakpoint480: 479.98 + px;
+
+// Colors
+$mainColor: #131418;
+
+// Burger Menu
+$burgerBreakpoint: $breakpoint992;
+$burgerColor: #FFF;
+$burgerActiveColor: #FFF;
+
+// Fonts
+$fontMain: 'Stolzl-Light', sans-serif;
+$fontSecondary: 'Gotham-Pro-Bold', sans-serif;
+
+@mixin adaptive-value($property,
+  $startSize,
+  $ultimSize,
+  $breakpoint,
+  $container: $containerWidth,
+  $type: "shrink"
+) {
+  $changeSize: abs($startSize - $ultimSize);
+  @if $type =="shrink" {
+    #{$property}: #{$startSize}px;
+    @media (max-width: #{$container}px) {
+      #{$property}: calc(#{$ultimSize}px + #{$changeSize} * ((100vw - #{$breakpoint}px) / (#{$container} - #{$breakpoint})));
+    }
+  }
+  @else if $type =="rise" {
+    #{$property}: #{$ultimSize}px;
+    @media (max-width: #{$container}px) {
+      #{$property}: calc(#{$startSize}px - #{$changeSize} * ((100vw - #{$breakpoint}px) / (#{$container} - #{$breakpoint})));
+    }
+  }
+}
